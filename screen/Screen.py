@@ -17,7 +17,7 @@ class Screen(tk.Tk):
         return self.winfo_screenwidth(), self.winfo_screenheight()
     
     def __setColumns(self) -> None:
-        """Sets the 2 frames of the app"""
+        """Sets the 2 main frames of the app"""
         w, h = self.getSize()
 
         self.__fr1 = tk.Frame(self)
@@ -25,15 +25,13 @@ class Screen(tk.Tk):
 
         self.__fr1.config(width=(w*3)//5, height=h)
         self.__fr2.config(width=(w*2)//5, height=h)
-        
-        self.__fr1.config(bg="black")
-        self.__fr2.config(bg="green")
 
         self.__fr1.place(x=0, y=0)
         self.__fr2.place(x=(w*3)//5, y=0)
     
     def setImage(self, img:Matrix) -> None:
         """Sets the image to display in the app"""
+        self.__matrix = img
         w, h = self.getSize()
         img.resize((w*2)//5, h)
         self.__photo = ImageTk.PhotoImage(img.getImg())
@@ -46,33 +44,51 @@ class Screen(tk.Tk):
 
     def __setTextArea(self) -> None:
         """Sets the text area where it is going to display the Matrix"""
-        self.__txt = tk.Text(self.__fr1)
         w, h = self.getSize()
+        auxFr = tk.Frame(self.__fr1, width=(w*3)//2, height=(h*4)//5)
+        auxFr.place(x=0, y=0)
+        cv = tk.Canvas(auxFr)
+        cv.pack(fill="both", expand=True)
+        self.__txt = tk.Text(cv)
         self.__txt.config(font=("helvetica", 16))
-        # self.__txt.config(width=(w*3)//5, height=(h*4)//5)
-        self.__txt.place(x=0, y=0)
+        self.__txt.pack(fill="both", side="left", expand=True)        
 
     def __setControls(self) -> None:
         """Sets the controls frame"""
         w, h = self.getSize()
         self.__controls = tk.Frame(self.__fr1)
-        self.__controls.config(width=(w*3)//2, height=h//5, bg="green")
+        self.__controls.config(width=(w*3)//2, height=h//5)
         self.__controls.place(x=0, y=h, anchor="sw")
 
-    def printMatrix(self, array:list) -> None:
-        CONST = 200
-        count = CONST
-        start = 0
-        end = CONST
-        for rgb in array:
-            string = str(array[start:end])
-            string = string[1:-2]
-            string = string.replace("), (", ")\t\t(")
-            self.__txt.insert("end",string+"\n")
-            start = end
-            end += CONST
-            count+=CONST
-            if count>=len(array):
-                end = -1
+        self.__grayBtn = AppButton(self.__controls, "Grises", ((w*1)//10))
+        self.__grayBtn.config(command=lambda:self.transformImg(1))
+        self.__invBtn = AppButton(self.__controls, "Invertir", (w*2)//10)
+        self.__invBtn.config(command=lambda:self.transformImg(2))
+        self.__grayBtn = AppButton(self.__controls, "Rotar", (w*3)//10)
+        self.__invBtn = AppButton(self.__controls, "Brillo", (w*4)//10)
+
+    def printMatrix(self) -> None:
+        string = str(self.__matrix.getMatrix())
+        string = string[1:-2]
+        string = string.replace("]\n  [", "]\t\t[")
+        self.__txt.delete("1.0", "end")
+        self.__txt.insert("end", string+"\n")
+
+    def transformImg(self, num:int) -> None:
+        match num:
+            case 1:
+                self.__matrix.grayScale()
+            case 2:
+                self.__matrix.invert()
+        self.__matrix.setImage()
+        self.setImage(self.__matrix)
+        self.printMatrix()
+    
+
 
             
+class AppButton(tk.Button):
+    def __init__(self, master, text, i):
+        super().__init__(master)
+        self.config(text=text, font=("helvetica", 16))
+        self.place(x = i, y=30, anchor="center")
