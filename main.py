@@ -8,8 +8,3 @@ matrix = Matrix("./img/papagayo.png")
 rt.setImage(matrix)
 rt.printMatrix()
 rt.mainloop()
-
-# b&w
-# invertir
-# rotar
-# brillo

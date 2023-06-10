@@ -40,6 +40,33 @@ class Matrix:
             row = row[::-1]
             inverted.append(row)
         self.__matrix = np.array(inverted)
+
+    def rotate(self):
+        dim = self.__matrix.shape
+        rotated = np.zeros((dim[1], dim[0], dim[2]), dtype=np.int32)
+        i = 0
+        for row in self.__matrix:
+            j = 0
+            for rgb in row:
+                rotated[j][dim[0]-1-i] = rgb
+                j+=1
+            i+=1
+        self.__matrix = rotated
+
+    def bright(self):
+        i = 0
+        for row in self.__matrix:
+            j = 0
+            for rgb in row:
+                k = 0
+                for pixel in rgb:
+                    pixel = pixel*1.2
+                    if pixel > 255:
+                        pixel = 255
+                    self.__matrix[i, j, k] = pixel
+                    k+=1
+                j+=1
+            i+=1
     
     def setImage(self):
         image = Image.new("RGB", (self.__matrix.shape[1], self.__matrix.shape[0]))

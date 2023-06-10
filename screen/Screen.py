@@ -64,10 +64,13 @@ class Screen(tk.Tk):
         self.__grayBtn.config(command=lambda:self.transformImg(1))
         self.__invBtn = AppButton(self.__controls, "Invertir", (w*2)//10)
         self.__invBtn.config(command=lambda:self.transformImg(2))
-        self.__grayBtn = AppButton(self.__controls, "Rotar", (w*3)//10)
-        self.__invBtn = AppButton(self.__controls, "Brillo", (w*4)//10)
+        self.__rotBtn = AppButton(self.__controls, "Rotar", (w*3)//10)
+        self.__rotBtn.config(command=lambda:self.transformImg(3))
+        self.__brightBtn = AppButton(self.__controls, "Brillo", (w*4)//10)
+        self.__brightBtn.config(command=lambda:self.transformImg(4))
 
     def printMatrix(self) -> None:
+        """Prints the matrix to TextField"""
         string = str(self.__matrix.getMatrix())
         string = string[1:-2]
         string = string.replace("]\n  [", "]\t\t[")
@@ -75,18 +78,27 @@ class Screen(tk.Tk):
         self.__txt.insert("end", string+"\n")
 
     def transformImg(self, num:int) -> None:
+        """
+        Transform the RGB matrix depending of the num constant:\n
+        * 1: Gray scale\n
+        * 2: Invert image\n
+        * 3: Rotate image\n
+        * 4: Change brightness\n
+        """
         match num:
             case 1:
                 self.__matrix.grayScale()
             case 2:
                 self.__matrix.invert()
+            case 3:
+                self.__matrix.rotate()
+            case 4:
+                self.__matrix.bright()
         self.__matrix.setImage()
         self.setImage(self.__matrix)
         self.printMatrix()
     
-
-
-            
+           
 class AppButton(tk.Button):
     def __init__(self, master, text, i):
         super().__init__(master)
