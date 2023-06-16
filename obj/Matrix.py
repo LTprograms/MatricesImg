@@ -7,9 +7,12 @@ class Matrix:
         self.__img = self.__img.convert("RGB")
         self.__url = url
         self.__matrix = np.array(self.__img)
+        self.__matrix = self.__matrix.tolist()
 
     def resize(self, w:int, h:int):
         self.__img = self.__img.resize((w, h))
+        self.__matrix = np.array(self.__img) 
+        self.__matrix = self.__matrix.tolist()
     
     def getImg(self) -> Image:
         return self.__img
@@ -29,20 +32,21 @@ class Matrix:
         for row in self.__matrix:
             i = 0
             for rgb in row:
-                row[i] = rgb * [ 0.2989, 0.5870, 0.1140 ]
+                row[i] = [0.2989*rgb[0],0.5870*rgb[1], 0.1140*rgb[2]]
                 add = sum(row[i])
-                row[i] = np.array([add, add, add])
+                row[i] = np.array([int(add), int(add), int(add)])
                 i += 1
 
     def invert(self):
-        inverted = []
+        i = 0
         for row in self.__matrix:
-            row = row[::-1]
-            inverted.append(row)
-        self.__matrix = np.array(inverted)
+            aux = row
+            aux.reverse()
+            self.__matrix[i] = aux
+            i+=1
 
     def rotate(self):
-        dim = self.__matrix.shape
+        dim = (len(self.__matrix), len(self.__matrix[0]), 3)
         rotated = np.zeros((dim[1], dim[0], dim[2]), dtype=np.int32)
         i = 0
         for row in self.__matrix:
@@ -51,7 +55,7 @@ class Matrix:
                 rotated[j][dim[0]-1-i] = rgb
                 j+=1
             i+=1
-        self.__matrix = rotated
+        self.__matrix = rotated.tolist()
 
     def bright(self):
         i = 0
@@ -63,15 +67,15 @@ class Matrix:
                     pixel = pixel*1.2
                     if pixel > 255:
                         pixel = 255
-                    self.__matrix[i, j, k] = pixel
+                    self.__matrix[i][j][k] = int(pixel)
                     k+=1
                 j+=1
             i+=1
     
     def setImage(self):
-        image = Image.new("RGB", (self.__matrix.shape[1], self.__matrix.shape[0]))
-        for y in range(self.__matrix.shape[0]):
-            for x in range(self.__matrix.shape[1]):
-                color = tuple(self.__matrix[y, x])
+        image = Image.new("RGB", (len(self.__matrix[0]), len(self.__matrix)))
+        for y in range(len(self.__matrix)):
+            for x in range(len(self.__matrix[0])):
+                color = tuple(self.__matrix[y][x])
                 image.putpixel((x, y), color)
         self.__img = image

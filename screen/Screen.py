@@ -71,11 +71,16 @@ class Screen(tk.Tk):
 
     def printMatrix(self) -> None:
         """Prints the matrix to TextField"""
-        string = str(self.__matrix.getMatrix())
-        string = string[1:-2]
-        string = string.replace("]\n  [", "]\t\t[")
+        string = self.__matrix.getMatrix()
+        # string = string[1:-2]
+        # string = string.replace("]\n  [", "]\t\t[")
         self.__txt.delete("1.0", "end")
-        self.__txt.insert("end", string+"\n")
+        size = 1000000
+        for i in range(0, len(string), size):
+            chunk = string[i:i + size]
+            
+            for item in chunk:
+                self.__txt.insert("end", str(item).replace("], [", "]\t\t["))
 
     def transformImg(self, num:int) -> None:
         """
