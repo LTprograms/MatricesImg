@@ -92,60 +92,6 @@ class Screen(ttkb.Window):
         self.__matrix.setImage()
         self.setImage(self.__matrix)
         self.printMatrix()   
-
-    
-# class Screen(tk.Tk):       
-
-#     def __setControls(self) -> None:
-#         """Sets the controls frame"""
-#         w, h = self.getSize()
-#         self.__controls = tk.Frame(self.__fr1)
-#         self.__controls.config(width=(w*3)//2, height=h//5)
-#         self.__controls.place(x=0, y=h, anchor="sw")
-
-#         self.__grayBtn = AppButton(self.__controls, "Grises", ((w*1)//10))
-#         self.__grayBtn.config(command=lambda:self.transformImg(1))
-#         self.__invBtn = AppButton(self.__controls, "Invertir", (w*2)//10)
-#         self.__invBtn.config(command=lambda:self.transformImg(2))
-#         self.__rotBtn = AppButton(self.__controls, "Rotar", (w*3)//10)
-#         self.__rotBtn.config(command=lambda:self.transformImg(3))
-#         self.__brightBtn = AppButton(self.__controls, "Brillo", (w*4)//10)
-#         self.__brightBtn.config(command=lambda:self.transformImg(4))
-
-#     def printMatrix(self) -> None:
-#         """Prints the matrix to TextField"""
-#         string = self.__matrix.getMatrix()
-#         # string = string[1:-2]
-#         # string = string.replace("]\n  [", "]\t\t[")
-#         self.__txt.delete("1.0", "end")
-#         size = 1000000
-#         for i in range(0, len(string), size):
-#             chunk = string[i:i + size]
-            
-#             for item in chunk:
-#                 self.__txt.insert("end", str(item).replace("], [", "]\t\t["))
-
-#     def transformImg(self, num:int) -> None:
-#         """
-#         Transform the RGB matrix depending of the num constant:\n
-#         * 1: Gray scale\n
-#         * 2: Invert image\n
-#         * 3: Rotate image\n
-#         * 4: Change brightness\n
-#         """
-#         match num:
-#             case 1:
-#                 self.__matrix.grayScale()
-#             case 2:
-#                 self.__matrix.invert()
-#             case 3:
-#                 self.__matrix.rotate()
-#             case 4:
-#                 self.__matrix.bright()
-#         self.__matrix.setImage()
-#         self.setImage(self.__matrix)
-#         self.printMatrix()
-    
            
 class AppButton(ttkb.Button):
     def __init__(self, master, text, i, style):
