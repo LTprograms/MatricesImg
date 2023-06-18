@@ -27,8 +27,8 @@ how we can manipulate an image array to apply some filters
 
 <h2>How to use</h2>
 <ol>
-    <li>Clone this repository using this link: <a href="https://github.com/LTprograms/MatrixImg.git">https://github.com/LTprograms/MatrixImg.git</a><li>
-    <li>Make sure you have Pyuthon installed in your computer, if not, download using this <a href="https://www.python.org/downloads/" target="_blank">link</a><li>
+    <li>Clone this repository using this link: <a href="https://github.com/LTprograms/MatrixImg.git">https://github.com/LTprograms/MatrixImg.git</a></li>
+    <li>Make sure you have Pyuthon installed in your computer, if not, download using this <a href="https://www.python.org/downloads/" target="_blank">link</a></li>
     <li>Add python to the PATH if you have not already done</li>
     <li>Install ttkbootstrap to use this app, you can use the command in any terminal: <i>pip install ttkbootstrap</i></li>
     <li>You will also need Pillow and Numpy libraries, use the following commands to install them: <i>pip install numpy</i> & <i>pip install pillow</i></li>
