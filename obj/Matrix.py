@@ -6,13 +6,16 @@ class Matrix:
         self.__img = Image.open(url)
         self.__img = self.__img.convert("RGB")
         self.__url = url
-        self.__matrix = np.array(self.__img)
-        self.__matrix = self.__matrix.tolist()
+        self.resize(300)
 
-    def resize(self, w:int, h:int):
-        self.__img = self.__img.resize((w, h))
+    def resize(self, w:int):
         self.__matrix = np.array(self.__img) 
         self.__matrix = self.__matrix.tolist()
+        ratio = self.__img.width / float(self.__img.height)
+        h = int(w / ratio)
+
+        self.__img = self.__img.resize((w, h))
+
     
     def getImg(self) -> Image:
         return self.__img
@@ -79,3 +82,4 @@ class Matrix:
                 color = tuple(self.__matrix[y][x])
                 image.putpixel((x, y), color)
         self.__img = image
+        self.resize(300)
