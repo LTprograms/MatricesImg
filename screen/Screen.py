@@ -7,9 +7,10 @@ from ttkbootstrap.constants import *
 class Screen(ttkb.Window):
     def __init__(self, themename):
         super().__init__(themename=themename)
-        self.title("Matrix Images")
+        self.title("Array Images")
         self.__w, self.__h = self.winfo_screenwidth(), self.winfo_screenheight()
-        ttkb.Label(self, text="Matrix Manipulation")
+        ttkb.Label(self, text="Array Manipulation", font=("helvetica", 20)
+                   , bootstyle=(INFO)).pack(side=TOP)
         self.__setColumns()
         self.__setControls()
         self.__setTextArea()
@@ -51,19 +52,17 @@ class Screen(ttkb.Window):
         self.__controls = ttkb.Frame(self)
         self.__controls.pack(side=BOTTOM)
 
-        self.__grayBtn = AppButton(self.__controls, "Grises", 1, (SUCCESS))
+        self.__grayBtn = AppButton(self.__controls, "Gray Scale", 1, (SUCCESS))
         self.__grayBtn.config(command=lambda:self.transformImg(1))
-        self.__invBtn = AppButton(self.__controls, "Invertir", 2, (DANGER))
+        self.__invBtn = AppButton(self.__controls, "Invert", 2, (DANGER))
         self.__invBtn.config(command=lambda:self.transformImg(2))
-        self.__rotBtn = AppButton(self.__controls, "Rotar", 3, (INFO))
+        self.__rotBtn = AppButton(self.__controls, "Rotate", 3, (INFO))
         self.__rotBtn.config(command=lambda:self.transformImg(3))
-        self.__brightBtn = AppButton(self.__controls, "Brillo", 4, (WARNING))
+        self.__brightBtn = AppButton(self.__controls, "Brightness", 4, (WARNING))
         self.__brightBtn.config(command=lambda:self.transformImg(4))  
     def printMatrix(self) -> None:
         """Prints the matrix to TextField"""
         string = self.__matrix.getMatrix()
-        # string = string[1:-2]
-        # string = string.replace("]\n  [", "]\t\t[")
         self.__txt.delete("1.0", "end")
         size = 1000000
         for i in range(0, len(string), size):
