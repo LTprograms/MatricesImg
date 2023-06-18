@@ -7,12 +7,23 @@ from ttkbootstrap.constants import *
 class Screen(ttkb.Window):
     def __init__(self, themename):
         super().__init__(themename=themename)
-        self.title("Imagenes")
-        self.state("zoomed")
+        self.title("Matrix Images")
+        self.__w, self.__h = self.winfo_screenwidth(), self.winfo_screenheight()
+        self.__setColumns()
 
-    def getSize(self) -> tuple[int, int]:
-        """Returns (width, height) of screen in a tuple"""
-        return self.winfo_screenwidth(), self.winfo_screenheight()
+    def __setColumns(self) -> None:
+        """Sets the 2 main frames of the app"""
+
+        self.__fr1 = ttkb.Frame(self)
+        self.__fr2 = ttkb.Frame(self)
+        
+        self.__fr1.config(bootstyle=(SUCCESS))
+        self.__fr1.pack(fill=BOTH, expand=True, side=LEFT)
+        ttkb.Label(self.__fr1, width=100, text="Col 1", bootstyle=(WARNING, INVERSE)).pack(fill=BOTH, expand=True)
+        
+        self.__fr2.config(bootstyle=(DANGER))
+        self.__fr2.pack(fill=BOTH, side=RIGHT)
+        ttkb.Label(self.__fr2, width=100, text="Col 2", bootstyle=(DANGER, INVERSE)).pack(fill=BOTH, expand=True)
     
 # class Screen(tk.Tk):
 #     def __init__(self) -> None:
