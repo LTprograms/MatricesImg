@@ -2,7 +2,7 @@
 
 Array maniupulation for image processing
 
-<h2>About</h2>
+<h2>Tecnologies</h2>
 <ul>
     <li>Python</li>
     <li>tkinter</li>
